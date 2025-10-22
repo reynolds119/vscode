@@ -1,0 +1,21 @@
+{
+  "name": "MY GH RESULT CHECKER",
+  "short_name": "GH Checker",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff0000",
+  "description": "Check your school results instantly with the My GH Result Checker app.",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

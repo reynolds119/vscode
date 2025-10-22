@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MY GH RESULT CHECKER</title>
+
+  <!-- ✅ PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff0000" />
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, red, yellow, green);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      flex-direction: column;
+      text-align: center;
+      transition: all 0.5s ease;
+      overflow: hidden;
+    }
+
+    .app-container {
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+      position: relative;
+      transition: 0.5s;
+    }
+
+    .flag-bar {
+      height: 6px;
+      width: 100%;
+      background: linear-gradient(to right, red, yellow, green, black);
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      color: yellow;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px red, 0 0 20px green;
+    }
+
+    img.logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid yellow;
+      margin-bottom: 10px;
+      box-shadow: 0 0 15px green;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: black;
+      color: yellow;
+      transform: scale(1.05);
+    }
+
+    .loading-overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 20px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: yellow;
+      font-weight: bold;
+    }
+
+    .spinner {
+      border: 6px solid rgba(255, 255, 255, 0.2);
+      border-top: 6px solid yellow;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    footer {
+      margin-top: 25px;
+      font-size: 13px;
+      color: black;
+      font-weight: bold;
+    }
+
+    /* 🔥 Animated Welcome Screen */
+    .welcome-screen {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      animation: fadeIn 1s ease-in;
+    }
+
+    /* Ghana flag background animation */
+    .welcome-screen::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, red 25%, yellow 25%, yellow 50%, green 50%, green 75%, black 75%);
+      background-size: 100% 400%;
+      animation: flagFlow 6s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes flagFlow {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 0% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .welcome-title {
+      font-size: 2em;
+      font-weight: bold;
+      text-shadow: 0 0 10px black, 0 0 20px yellow;
+      margin-bottom: 30px;
+      z-index: 2;
+      animation: glowPulse 2s infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 10px red, 0 0 20px yellow, 0 0 30px green; }
+      50% { text-shadow: 0 0 20px yellow, 0 0 40px red, 0 0 60px green; }
+    }
+
+    .check-btn {
+      background: linear-gradient(to right, red, yellow, green);
+      border: none;
+      padding: 15px 25px;
+      color: black;
+      font-weight: bold;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      z-index: 2;
+      animation: floatUp 2s ease-in-out infinite;
+    }
+
+    .check-btn:hover {
+      transform: scale(1.1);
+      color: white;
+      box-shadow: 0 0 20px yellow;
+    }
+
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 500px) {
+      h1 { font-size: 1.5em; }
+      .app-container { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN CONTAINER -->
+  <div class="app-container" id="loginContainer">
+    <div class="flag-bar"></div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Flag_of_Ghana.svg" alt="Logo" class="logo">
+    <h1>MY GH RESULT CHECKER</h1>
+
+    <form onsubmit="redirectToWelcome(event)">
+      <input type="text" id="studentId" placeholder="Enter Student ID" required />
+      <input type="password" id="password" placeholder="Enter Password" required />
+      <button type="submit">Continue</button>
+    </form>
+
+    <div class="loading-overlay" id="loading">
+      <div class="spinner"></div>
+      <p>Checking Credentials...</p>
+    </div>
+
+    <footer>© 2025 MY GH RESULT CHECKER</footer>
+  </div>
+
+  <!-- ANIMATED WELCOME SCREEN -->
+  <div class="welcome-screen" id="welcomeScreen">
+    <h2 class="welcome-title">Welcome to MY GH True Checker 🎓🇬🇭</h2>
+    <button class="check-btn" onclick="goToSchoolLink()">Check Results</button>
+  </div>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("Service Worker Registered"));
+    }
+
+    let studentId, password;
+
+    function redirectToWelcome(event) {
+      event.preventDefault();
+      studentId = document.getElementById("studentId").value.trim();
+      password = document.getElementById("password").value.trim();
+
+      if (!studentId || !password) {
+        alert("Please enter both Student ID and Password.");
+        return;
+      }
+
+      const loader = document.getElementById("loading");
+      loader.style.display = "flex";
+
+      setTimeout(() => {
+        loader.style.display = "none";
+        document.getElementById("loginContainer").style.display = "none";
+        document.getElementById("welcomeScreen").style.display = "flex";
+      }, 2000);
+    }
+
+    function goToSchoolLink() {
+      // 🔗 Replace this with your actual school link
+      const schoolLink = `https://moderndtsystems.com/StudentPortal/Login.aspx?ReturnUrl=%2fstudentportal%2f`;
+      window.location.href = schoolLink;
+    }
+  </script>
+
+</body>
+</html>
